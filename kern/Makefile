@@ -1,25 +1,12 @@
-KERNELDIR = /usr/src/linux-2.4.18-14
-
-include $(KERNELDIR)/.config
-
-FLAGS = -D__KERNEL__ -DEXPORT_SYMTAB -DMODULE $(VERCFLAGS)
-GLOBAL_CFLAGS = -g -I$(KERNELDIR)/include $(FLAGS)
-
-M_OBJS = ux_dir.o ux_alloc.o ux_file.o ux_inode.o
-
-M_TARGET = uxfs
-
-SRCS = $(M_OBJS:.o=.c)
-
-CFLAGS = $(GLOBAL_CFLAGS) $(EXTRA_CFLAGS)
-
-$(M_TARGET) : $(M_OBJS)
-	ld -r -o $@ $(M_OBJS)
-
-$(M_OBJS) : %.o : %.c
-	$(CC) -c $(CFLAGS) -o $@ $<
-
-all: uxfs
-
-clean:
-	rm -f $(M_OBJS) $(M_TARGET)
+# If KERNELRELEASE is defined, we've been infoked from the
+# kernel build system and can use its language
+ifneq ($(KERNELRELEASE),)
+	obj-m := ux_dir.o ux_alloc.o ux_file.o ux_inode.o
+# Otherwise we were called directly from the command
+# line; invoke the kernel build system
+else
+	KERNELDIR ?= /lib/modules/$(shell uname -r)/build
+	PWD := $(shell pwd)
+default:
+	$(MAKE) -C $(KERNELDIR) M=$(PWD) modules
+endif
