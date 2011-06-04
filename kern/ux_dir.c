@@ -147,7 +147,7 @@ start_again:
 struct file_operations ux_dir_operations = {
         read:                generic_read_dir,
         readdir:             ux_readdir,
-        fsync:               file_fsync,
+        fsync:               generic_file_fsync,
 };
 
 /*
