@@ -4,7 +4,6 @@
 
 #include <linux/sched.h>
 #include <linux/string.h>
-#include <linux/locks.h>
 
 #include "ux_fs.h"
 

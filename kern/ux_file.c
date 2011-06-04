@@ -3,7 +3,6 @@
 /*--------------------------------------------------------------*/
 
 #include <linux/fs.h>
-#include <linux/locks.h>
 #include <linux/smp_lock.h>
 #include "ux_fs.h"
 
