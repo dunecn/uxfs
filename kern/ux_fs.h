@@ -24,7 +24,6 @@ extern struct file_operations ux_file_operations;
 #define UX_ROOT_INO             2
 
 #define s_private        u.generic_sbp
-#define i_private        u.generic_ip
 
 /*
  * The on-disk superblock. The number of inodes and 
