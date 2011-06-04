@@ -7,6 +7,7 @@
 #include <linux/slab.h>
 #include <linux/init.h>
 #include <linux/smp_lock.h>
+#include <linux/buffer_head.h>
 #include <asm/uaccess.h>
 #include "ux_fs.h"
 

@@ -4,6 +4,7 @@
 
 #include <linux/sched.h>
 #include <linux/string.h>
+#include <linux/buffer_head.h>
 
 #include "ux_fs.h"
 
