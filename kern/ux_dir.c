@@ -190,9 +190,9 @@ ux_create(struct inode *dip, struct dentry *dentry, int mode)
          */
 
         dip->i_nlink++;
-        inode->i_uid = current->fsuid;
+        inode->i_uid = current->cred->fsuid;
         inode->i_gid = (dip->i_mode & S_ISGID) ?
-                        dip->i_gid : current->fsgid;
+                        dip->i_gid : current->cred->fsgid;
         inode->i_mtime = inode->i_atime =
                          inode->i_ctime = CURRENT_TIME;
         inode->i_blocks = inode->i_blksize = 0;
@@ -256,9 +256,9 @@ ux_mkdir(struct inode *dip, struct dentry *dentry, int mode)
         }
         ux_diradd(dip, (char *)dentry->d_name.name, inum);
 
-        inode->i_uid = current->fsuid;
+        inode->i_uid = current->cred->fsuid;
         inode->i_gid = (dip->i_mode & S_ISGID) ? 
-                        dip->i_gid : current->fsgid;
+                        dip->i_gid : current->cred->fsgid;
         inode->i_mtime = inode->i_atime = 
                         inode->i_ctime = CURRENT_TIME;
         inode->i_blocks = 1;
@@ -276,9 +276,9 @@ ux_mkdir(struct inode *dip, struct dentry *dentry, int mode)
         nip->i_nlink = 2;
         nip->i_atime = nip->i_ctime 
                      = nip->i_mtime = CURRENT_TIME;
-        nip->i_uid = current->fsuid;
+        nip->i_uid = current->cred->fsuid;
         nip->i_gid = (dip->i_mode & S_ISGID) ?
-                      dip->i_gid : current->fsgid;
+                      dip->i_gid : current->cred->fsgid;
         nip->i_size = 512;
         nip->i_blocks = 1;
         memset(nip->i_addr, 0, 16);
