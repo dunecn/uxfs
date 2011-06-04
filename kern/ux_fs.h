@@ -2,6 +2,8 @@
 /*---------------------------- ux_fs.h -------------------------*/
 /*--------------------------------------------------------------*/
 
+#include <linux/fs.h>
+
 extern struct address_space_operations ux_aops;
 extern struct inode_operations ux_file_inops;
 extern struct inode_operations ux_dir_inops;
