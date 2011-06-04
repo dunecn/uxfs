@@ -44,16 +44,16 @@ struct ux_superblock {
  */
 
 struct ux_inode {
-        __u32        i_mode;
-        __u32        i_nlink;
-        __u32        i_atime;
-        __u32        i_mtime;
-        __u32        i_ctime;
-        __s32        i_uid;
-        __s32        i_gid;
-        __u32        i_size;
-        __u32        i_blocks;
-        __u32        i_addr[UX_DIRECT_BLOCKS];
+        __u32           i_mode;
+        __u32           i_nlink;
+        struct timespec i_atime;
+        struct timespec i_mtime;
+        struct timespec i_ctime;
+        __s32           i_uid;
+        __s32           i_gid;
+        __u32           i_size;
+        __u32           i_blocks;
+        __u32           i_addr[UX_DIRECT_BLOCKS];
 };
 
 /*
