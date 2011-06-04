@@ -50,18 +50,24 @@ ux_find_entry(struct inode *dip, char *name)
  * example, we call iget() from ux_lookup().
  */
 
-void
-ux_read_inode(struct inode *inode)
+struct inode *
+ux_iget(struct super_block *sb, unsigned long ino)
 {
         struct buffer_head        *bh;
         struct ux_inode           *di;
-        unsigned long             ino = inode->i_ino;
         int                       block;
+        struct inode              *inode;
 
         if (ino < UX_ROOT_INO || ino > UX_MAXFILES) {
                 printk("uxfs: Bad inode number %lu\n", ino);
-                return;
+                return ERR_PTR(-EIO);
         }
+
+        inode = iget_locked(sb, ino);
+        if (!inode)
+                return ERR_PTR(-ENOMEM);
+        if (!(inode->i_state & I_NEW))
+                return inode;
 
         /*
          * Note that for simplicity, there is only one 
@@ -72,7 +78,7 @@ ux_read_inode(struct inode *inode)
         bh = sb_bread(inode->i_sb, block);
         if (!bh) {
                 printk("Unable to read inode %lu\n", ino);
-                return;
+                goto bad_inode;
         }
 
         di = (struct ux_inode *)(bh->b_data);
@@ -97,6 +103,13 @@ ux_read_inode(struct inode *inode)
         inode->i_ctime = di->i_ctime;
         memcpy(&inode->i_private, di, sizeof(struct ux_inode));
         brelse(bh);
+
+        unlock_new_inode(inode);
+        return inode;
+
+bad_inode:
+        iget_failed(inode);
+        return ERR_PTR(-EIO);
 }
 
 /*
@@ -220,7 +233,6 @@ ux_write_super(struct super_block *sb)
 }
 
 struct super_operations uxfs_sops = {
-        read_inode:        ux_read_inode,
         write_inode:        ux_write_inode,
         delete_inode:        ux_delete_inode,
         put_super:        ux_put_super,
@@ -272,8 +284,8 @@ ux_read_super(struct super_block *s, void *data, int silent)
         s->s_magic = UX_MAGIC;
         s->s_op = &uxfs_sops;
 
-        inode = iget(s, UX_ROOT_INO);
-        if (!inode) {
+        inode = ux_iget(s, UX_ROOT_INO);
+        if (IS_ERR(inode)) {
                 goto out;
         }
         s->s_root = d_alloc_root(inode);

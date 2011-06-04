@@ -92,6 +92,7 @@ struct ux_fs {
 
 #ifdef __KERNEL__
 
+extern struct inode *ux_iget(struct super_block *, unsigned int);
 extern ino_t ux_ialloc(struct super_block *);
 extern int ux_find_entry(struct inode *, char *);
 __u32 ux_block_alloc(struct super_block *);
