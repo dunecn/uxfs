@@ -92,7 +92,6 @@ ux_read_inode(struct inode *inode)
         inode->i_nlink = di->i_nlink;
         inode->i_size = di->i_size;
         inode->i_blocks = di->i_blocks;
-        inode->i_blksize = UX_BSIZE;
         inode->i_atime = di->i_atime;
         inode->i_mtime = di->i_mtime;
         inode->i_ctime = di->i_ctime;

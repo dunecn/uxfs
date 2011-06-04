@@ -195,7 +195,7 @@ ux_create(struct inode *dip, struct dentry *dentry, int mode)
                         dip->i_gid : current->cred->fsgid;
         inode->i_mtime = inode->i_atime =
                          inode->i_ctime = CURRENT_TIME;
-        inode->i_blocks = inode->i_blksize = 0;
+        inode->i_blocks = 0;
         inode->i_op = &ux_file_inops;
         inode->i_fop = &ux_file_operations;
         inode->i_mapping->a_ops = &ux_aops;
@@ -262,7 +262,6 @@ ux_mkdir(struct inode *dip, struct dentry *dentry, int mode)
         inode->i_mtime = inode->i_atime = 
                         inode->i_ctime = CURRENT_TIME;
         inode->i_blocks = 1;
-        inode->i_blksize = UX_BSIZE;
         inode->i_op = &ux_dir_inops;
         inode->i_fop = &ux_dir_operations;
         inode->i_mapping->a_ops = &ux_aops;
