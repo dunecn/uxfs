@@ -4,6 +4,7 @@
 
 #include <linux/fs.h>
 #include <linux/smp_lock.h>
+#include <linux/buffer_head.h>
 #include "ux_fs.h"
 
 struct file_operations ux_file_operations = {
