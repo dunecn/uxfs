@@ -8,8 +8,8 @@
 
 struct file_operations ux_file_operations = {
         llseek:    generic_file_llseek,
-        read:      generic_file_read,
-        write:     generic_file_write,
+        read:      do_sync_read,
+        write:     do_sync_write,
         mmap:      generic_file_mmap,
 };
 
