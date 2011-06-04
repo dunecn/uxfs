@@ -9,6 +9,9 @@
 #include <time.h>
 #include <linux/fs.h>
 #include <sys/stat.h>
+#include <stdlib.h>
+#include <memory.h>
+#include <string.h>
 #include "../kern/ux_fs.h"
 
 main(int argc, char **argv)

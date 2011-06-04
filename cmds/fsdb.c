@@ -9,6 +9,7 @@
 #include <fcntl.h>
 #include <time.h>
 #include <linux/fs.h>
+#include <stdlib.h>
 #include "../kern/ux_fs.h"
 
 struct ux_superblock       sb;
